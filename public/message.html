@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Chat | LoveConnect</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<style>
+body{
+    margin:0;
+    background:#efeae2;
+    font-family:Segoe UI, sans-serif;
+}
+
+/* HEADER */
+.chat-header{
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    height:60px;
+    background:#fff;
+    display:flex;
+    align-items:center;
+    padding:8px 12px;
+    box-shadow:0 2px 6px rgba(0,0,0,.15);
+    z-index:1000;
+}
+
+.chat-header img{
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    object-fit:cover;
+    margin-right:10px;
+}
+
+.chat-header .name{
+    font-weight:700;
+    font-size:16px;
+}
+
+.chat-header .status{
+    font-size:12px;
+    color:#777;
+}
+
+.chat-header .actions{
+    margin-left:auto;
+    display:flex;
+    gap:14px;
+    font-size:20px;
+    cursor:pointer;
+}
+
+/* CHAT AREA */
+#chatBox{
+    padding:80px 10px 90px;
+    height:100vh;
+    overflow-y:auto;
+}
+
+/* MESSAGE BUBBLES */
+.bubble{
+    max-width:75%;
+    padding:8px 12px;
+    margin:6px 0;
+    border-radius:10px;
+    position:relative;
+    font-size:14px;
+    line-height:1.4;
+    word-wrap:break-word;
+}
+
+.bubble.me{
+    background:#dcf8c6;
+    margin-left:auto;
+    border-bottom-right-radius:2px;
+}
+
+.bubble.them{
+    background:#fff;
+    margin-right:auto;
+    border-bottom-left-radius:2px;
+}
+
+.msg-time{
+    font-size:10px;
+    color:#777;
+    text-align:right;
+    margin-top:4px;
+}
+
+/* TYPING */
+#typing{
+    position:fixed;
+    bottom:65px;
+    left:15px;
+    font-size:12px;
+    color:#555;
+}
+
+/* INPUT AREA */
+.input-area{
+    position:fixed;
+    bottom:0;
+    left:0;
+    right:0;
+    background:#fff;
+    padding:10px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    box-shadow:0 -2px 6px rgba(0,0,0,.15);
+}
+
+.input-area input{
+    flex:1;
+    border:none;
+    outline:none;
+    padding:10px 14px;
+    border-radius:22px;
+    background:#f0f0f0;
+    font-size:14px;
+}
+
+.send-btn{
+    background:#25d366;
+    border:none;
+    color:#fff;
+    font-size:18px;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+
+    
+<!-- HEADER -->
+<div class="chat-header">
+    <img id="userPhoto" src="/default.png">
+    <div>
+        <div class="name" id="chatName"></div>
+        <div class="status" id="onlineStatus">Online</div>
+    </div>
+
+    <div class="actions">
+        <button id="giftBtn">🎁 Gift Coins</button>
+        <span id="voiceCall">📞</span>
+        <span id="videoCall">🎥</span>
+        
+    </div>
+</div>
+
+<!-- CHAT -->
+<div id="chatBox"></div>
+<div id="typing"></div>
+
+<!-- INPUT -->
+<div class="input-area">
+    <input id="msgInput" placeholder="Message..." autocomplete="off"/>
+    <button class="send-btn" id="sendBtn">➤</button>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/message.js" defer></script>
+</body>
+</html>

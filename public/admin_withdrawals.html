@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Admin Withdrawals | LoveConnect</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+  margin:0;
+  background:#f5f6fa;
+  font-family:'Segoe UI',sans-serif;
+}
+.container{
+  max-width:1000px;
+  margin:auto;
+  padding:20px;
+}
+h2{
+  color:#ff2d75;
+  margin-bottom:15px;
+}
+table{
+  width:100%;
+  border-collapse:collapse;
+  background:white;
+  border-radius:12px;
+  overflow:hidden;
+  box-shadow:0 4px 12px #0002;
+}
+th,td{
+  padding:12px;
+  border-bottom:1px solid #eee;
+  font-size:14px;
+}
+th{
+  background:#ff2d75;
+  color:white;
+  text-align:left;
+}
+.badge{
+  padding:4px 8px;
+  border-radius:6px;
+  font-size:12px;
+  color:white;
+}
+.pending{background:#f39c12}
+.approved{background:#2ecc71}
+.rejected{background:#e74c3c}
+button{
+  border:none;
+  padding:6px 10px;
+  border-radius:6px;
+  cursor:pointer;
+  font-weight:600;
+}
+.approve{background:#2ecc71;color:white}
+.reject{background:#e74c3c;color:white}
+.empty{
+  text-align:center;
+  color:#777;
+  padding:20px;
+}
+.top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:10px;
+}
+a{
+  text-decoration:none;
+  color:#ff2d75;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <div class="top">
+    <h2>Withdrawal Requests</h2>
+    <a href="admin.html">⬅ Back</a>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>User</th>
+        <th>Coins</th>
+        <th>Fee</th>
+        <th>Net</th>
+        <th>Bank</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody id="withdrawBody">
+      <tr><td colspan="7" class="empty">Loading…</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<script src="/js/admin_withdrawals.js" defer></script>
+</body>
+</html>

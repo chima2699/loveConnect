@@ -1,0 +1,66 @@
+<style>
+  body {
+    padding-bottom: 70px;
+  }
+
+  .bottombar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 64px;
+    background: #ffffff;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-top: 1px solid #eee;
+    z-index: 9999;
+  }
+
+  .bottombar a {
+    text-decoration: none;
+    color: #777;
+    font-size: 11px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .bottombar a span {
+    font-size: 22px;
+    line-height: 1;
+  }
+
+  .bottombar a.active {
+    color: #ff2d75;
+    font-weight: 600;
+  }
+</style>
+
+<div class="bottombar">
+  <a href="swipe.html" data-page="swipe">
+    <span>🏠</span>
+    <small>Home</small>
+  </a>
+
+  <a href="post.html" data-page="post">
+    <i>✍️</i>
+    Post
+  </a>
+
+  <a href="message_list.html" data-page="message_list">
+    <span>💬</span>
+    <small>Messages</small>
+  </a>
+
+  <a href="wallet.html" data-page="wallet">
+    <span>💰</span>
+    <small>Wallet</small>
+  </a>
+
+  <a href="profile.html" data-page="profile">
+    <span>👤</span>
+    <small>Profile</small>
+  </a>
+</div>

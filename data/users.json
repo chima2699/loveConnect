@@ -1,0 +1,23 @@
+[
+  {
+    "username": "Eugenesidney",
+    "email": "eugenesidneyc@gmail.com",
+    "password": "$2a$10$70K57NZLE573jhxNaWMILuE7iDfjbtmQWKxHVwqWPyksJzk7XDWkm",
+    "bonusCoins": 100,
+    "purchasedCoins": 51700,
+    "age": "29",
+    "gender": "Male",
+    "interestedIn": "Female",
+    "location": "Nigeria",
+    "interests": "Music",
+    "goal": "friendship",
+    "bio": "calm and gentle but wild",
+    "profilePhoto": "/uploads/profile/user_profile1765260163655.jpg",
+    "photos": [
+      "/uploads/profile/user_profile1765260163655.jpg",
+      "/uploads/profile/Eugenesidney_profile1765260130873.jpg",
+      "/uploads/profile/Eugenesidney_profile1765259621962.jpg"
+    ],
+    "fullname": "Onuigwe Chima Eugenesidney "
+  }
+]

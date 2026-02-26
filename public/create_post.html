@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Create Post</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      background: #f5f6fa;
+      padding: 20px;
+    }
+
+    .card {
+      max-width: 480px;
+      margin: auto;
+      background: #fff;
+      padding: 16px;
+      border-radius: 10px;
+      box-shadow: 0 6px 20px rgba(0,0,0,.08);
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 90px;
+      resize: vertical;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      font-size: 15px;
+    }
+
+    input[type="file"],
+    input[type="number"] {
+      margin-top: 10px;
+      width: 100%;
+    }
+
+    button {
+      margin-top: 14px;
+      width: 100%;
+      padding: 12px;
+      font-size: 15px;
+      border-radius: 8px;
+      border: none;
+      background: #ff2d75;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      opacity: .6;
+    }
+
+    small {
+      display: block;
+      margin-top: 6px;
+      color: #666;
+      font-size: 12px;
+    }
+
+    .lock-box {
+      margin-top: 12px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h3>Create Post</h3>
+
+    <form id="postForm">
+
+      <textarea id="content" placeholder="What’s on your mind?"></textarea>
+
+      <input
+        type="file"
+        id="media"
+        accept="image/*,video/*"
+      />
+
+      <small>
+        • Image or video required<br>
+        • Video must be 30 seconds or less
+      </small>
+
+      <!-- LOCK OPTIONS -->
+      <div class="lock-box">
+        <label>
+          <input type="checkbox" id="lockPost">
+          Lock this post
+        </label>
+
+        <input
+          type="number"
+          id="lockPrice"
+          placeholder="Unlock price (coins)"
+          min="1"
+          style="display:none"
+        />
+      </div>
+
+      <button id="postBtn" type="submit">Post</button>
+
+    </form>
+  </div>
+
+  <script src="/js/create_post.js"></script>
+</body>
+</html>

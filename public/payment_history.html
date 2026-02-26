@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Payment History | LoveConnect</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<style>
+body{margin:0;background:#f6f7fb;font-family:sans-serif}
+.topbar{background:#fff;padding:15px;text-align:center;
+box-shadow:0 2px 8px #0002;font-weight:bold;color:#ff2d75}
+.container{width:94%;max-width:600px;margin:15px auto}
+.card{background:#fff;padding:14px;border-radius:12px;
+box-shadow:0 2px 8px #0002;margin-bottom:12px}
+.status-success{color:#2ecc71}
+.status-pending{color:#f39c12}
+.status-failed{color:#e74c3c}
+.small{font-size:13px;color:#777}
+</style>
+</head>
+
+<body>
+<div class="topbar">Payment History</div>
+<div class="container" id="list"></div>
+
+<script src="/js/payment_history.js" defer></script>
+</body>
+</html>

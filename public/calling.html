@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Calling...</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+    margin:0;
+    background:#000;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:white;
+    font-family:sans-serif;
+}
+.box{text-align:center}
+.photo{
+    width:150px;height:150px;border-radius:50%;
+    object-fit:cover;box-shadow:0 0 18px #ff2d75;
+}
+.big{font-size:30px;color:#ff2d75;margin-top:20px}
+.small{color:#ccc;margin-top:5px}
+.btn{
+    margin-top:30px;
+    background:#ff2d75;
+    padding:14px 28px;
+    border-radius:10px;
+    font-size:18px;
+    cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+<audio id="ringTone" src="ring.mp3" loop></audio>
+
+<div class="box">
+    <img id="userPhoto" class="photo" src="default.png">
+    <div class="big">Calling…</div>
+    <div id="target" class="small"></div>
+    <div id="typeText" class="small"></div>
+    <div class="btn" id="cancelBtn">Cancel</div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/calling.js" defer></script>
+</body>
+</html>

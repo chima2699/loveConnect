@@ -1,0 +1,56 @@
+// middlewares/requireAdminToken.js
+const jwt = require("jsonwebtoken");
+
+function requireAdminToken(req, res, next) {
+  try {
+    // ==================================================
+    // 1️⃣ Extract token from headers
+    //    Supports:
+    //    - x-admin-token
+    //    - Authorization: Bearer <token>
+    // ==================================================
+    let token = req.headers["x-admin-token"];
+
+    if (!token && req.headers.authorization?.startsWith("Bearer ")) {
+      token = req.headers.authorization.split(" ")[1];
+    }
+
+    // ==================================================
+    // 2️⃣ If no token provided
+    // ==================================================
+    if (!token) {
+      return res.status(401).json({
+        error: "Admin authentication required"
+      });
+    }
+
+    // ==================================================
+    // 3️⃣ Verify JWT
+    // ==================================================
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    // ==================================================
+    // 4️⃣ Ensure admin privilege
+    // ==================================================
+    if (!decoded.admin) {
+      return res.status(403).json({
+        error: "Admin access only"
+      });
+    }
+
+    // ==================================================
+    // 5️⃣ Attach admin payload to request
+    // ==================================================
+    req.admin = decoded;
+
+    next();
+
+  } catch (err) {
+    // Token invalid, expired, or tampered
+    return res.status(401).json({
+      error: "Invalid or expired admin token"
+    });
+  }
+}
+
+module.exports = requireAdminToken;

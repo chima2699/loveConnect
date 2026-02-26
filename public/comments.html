@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Comments | LoveConnect</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<link rel="stylesheet" href="css/comments.css">
+</head>
+
+<body>
+
+<div class="topbar">
+    <span class="back-btn" id="backBtn">⬅</span>
+    <span class="title">Comments</span>
+</div>
+
+<div id="typingIndicator" style="padding:8px;font-size:13px;color:#777;display:none;"></div>
+
+<div id="commentsBox"></div>
+
+<button id="loadMoreBtn" style="display:none;margin:15px auto;">Load more</button>
+
+<div class="input-area">
+    <input id="commentInput" placeholder="Write a comment..." />
+    <button class="send-btn" id="sendBtn">Send</button>
+</div>
+
+<script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+<script src="/js/comments.js" defer></script>
+</body>
+</html>

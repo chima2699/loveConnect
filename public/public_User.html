@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>User Profile | LoveConnect</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<link rel="stylesheet" href="/css/public_user.css">
+</head>
+
+<body>
+<div class="container">
+
+    <h2 id="profileName">Loading…</h2>
+
+    <img id="mainPhoto" class="main-photo" src="default.png" alt="Profile photo">
+
+    <p class="status">
+        <span id="onlineDot"></span>
+        <span id="statusText"></span>
+    </p>
+
+    <div class="gallery" id="photoGallery"></div>
+
+    <div class="section-title">Basic Info</div>
+    <div class="info-box" id="basicInfo">Loading…</div>
+
+    <div class="section-title">About</div>
+    <div class="info-box" id="aboutBox">Loading…</div>
+
+    <div class="section-title">Distance</div>
+    <div class="info-box" id="distanceBox">Calculating…</div>
+
+    <button id="followBtn" class="btn follow-btn">Follow</button>
+    <button id="messageBtn" class="btn msg-btn">Message</button>
+
+    <div class="call-row">
+        <button id="voiceCallBtn" class="call-btn">📞 Voice</button>
+        <button id="videoCallBtn" class="call-btn">🎥 Video</button>
+    </div>
+
+    <button id="blockBtn" class="btn block-btn">Block User</button>
+    <button id="reportBtn" class="btn report-btn">Report User</button>
+
+</div>
+
+<script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+<script src="/js/public_user.js" defer></script>
+</body>
+</html>

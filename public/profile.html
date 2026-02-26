@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>My Profile | LoveConnect</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<!-- Cropper -->
+<link rel="stylesheet" href="/libs/cropper/cropper.min.css">
+<script src="/libs/cropper/cropper.min.js" defer></script>
+
+<!-- Socket -->
+<script src="/socket.io/socket.io.js"></script>
+
+<style>
+body{margin:0;background:#f5f6fa;font-family:Segoe UI,sans-serif}
+.container{max-width:480px;margin:auto;padding:16px}
+.card{background:#fff;border-radius:18px;box-shadow:0 6px 20px #0002;overflow:hidden}
+.hero{position:relative}
+.hero img{width:100%;height:420px;object-fit:cover}
+.hero label{position:absolute;bottom:14px;right:14px;background:#fff;padding:8px 14px;border-radius:999px;font-weight:600;cursor:pointer}
+.info{padding:16px}
+.username{font-size:22px;font-weight:700}
+.status{color:#777;font-size:14px}
+.section{margin-top:14px}
+.actions{display:flex;gap:10px;margin-top:14px}
+.actions button{flex:1;padding:12px;border:none;border-radius:999px;font-weight:700;cursor:pointer}
+.primary{background:#ff2d75;color:#fff}
+.outline{background:#fff;border:2px solid #ff2d75;color:#ff2d75}
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:10px}
+.gallery img{width:100%;height:110px;object-fit:cover;border-radius:10px;cursor:pointer}
+.logout{margin:30px auto;text-align:center}
+.logout button{padding:14px 30px;border:none;border-radius:999px;background:#ff2d75;color:#fff;font-size:16px;font-weight:700}
+.modal{display:none;position:fixed;inset:0;background:#0008;justify-content:center;align-items:center;z-index:99}
+.modal-card{background:#fff;border-radius:16px;padding:14px;width:90%;max-width:400px}
+.modal-card img{width:100%;max-height:400px;object-fit:contain}
+.modal-actions{display:flex;gap:10px;margin-top:12px}
+.modal-actions button{flex:1;padding:10px;border-radius:10px;border:none;font-weight:700}
+</style>
+</head>
+
+<div id="bottomBarContainer"></div>
+<script src="/js/bottombar.js"></script>
+
+
+<body>
+
+<div class="container">
+  <div class="card">
+
+    <div class="hero">
+      <img id="mainPhoto" src="/default.png">
+      <label>
+        Change Photo
+        <input id="photoPicker" type="file" accept="image/*" hidden>
+      </label>
+    </div>
+
+    <div class="info">
+      <div class="username" id="usernameLabel"></div>
+      <div class="status" id="onlineStatus">—</div>
+
+      <div class="section" id="basicInfo"></div>
+      <div class="section" id="aboutBox"></div>
+
+      <div class="actions">
+        <button id="editProfile" class="outline">Edit</button>
+        <button id="messageBtn" class="primary">Message</button>
+      </div>
+
+      <div class="gallery" id="photoGallery"></div>
+    </div>
+  </div><h3>💰 Creator Earnings</h3>
+
+<div class="earnings-box">
+  <h4>Total Earned</h4>
+  <p id="totalEarned">—</p>
+</div>
+
+<h4>📊 Earnings per Post</h4>
+<ul id="postEarnings"></ul>
+
+
+
+
+  <div class="logout">
+    <button id="logoutBtn">🚪 Logout</button>
+  </div>
+</div>
+
+<!-- Crop -->
+<div id="cropModal" class="modal">
+  <div class="modal-card">
+    <img id="cropImage">
+    <div class="modal-actions">
+      <button id="cropBtn" class="primary">Save</button>
+      <button id="cancelCrop" class="outline">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script src="/js/profile.js" defer></script>
+</body>
+</html>

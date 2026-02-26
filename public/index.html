@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>LoveConnect | Login</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(135deg, #ff2d75, #ff6aa5);
+        font-family: Arial, sans-serif;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .box {
+        width: 92%;
+        max-width: 380px;
+        background: white;
+        padding: 25px;
+        border-radius: 16px;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+        animation: fadeIn .3s ease;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(15px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+
+    h2 {
+        text-align: center;
+        margin-bottom: 18px;
+        background: linear-gradient(135deg, #ff2d75, #ff6aa5);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    input {
+        width: 100%;
+        padding: 13px;
+        margin-top: 12px;
+        border-radius: 10px;
+        border: 1px solid #ddd;
+        font-size: 15px;
+        background: #fafafa;
+    }
+
+    button {
+        width: 100%;
+        padding: 14px;
+        margin-top: 18px;
+        border: none;
+        border-radius: 12px;
+        background: #ff2d75;
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    button:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+
+    .link {
+        text-align: center;
+        margin-top: 14px;
+        font-size: 14px;
+    }
+
+    .link a {
+        color: #ff2d75;
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+    #errorBox {
+        display: none;
+        margin-top: 12px;
+        padding: 10px;
+        background: #ffe2e2;
+        color: #b30000;
+        border-radius: 10px;
+        font-size: 14px;
+        text-align: center;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="box">
+    <h2>LoveConnect</h2>
+
+    <form id="authForm" data-mode="login">
+        <input
+            id="email"
+            type="email"
+            placeholder="Email"
+            autocomplete="email"
+            required
+        >
+
+        <input
+            id="password"
+            type="password"
+            placeholder="Password"
+            autocomplete="current-password"
+            required
+        >
+
+        <button id="submitBtn" type="submit">Login</button>
+    </form>
+
+    <div id="errorBox"></div>
+
+    <div class="link">
+        Don’t have an account?
+        <a href="register.html">Create account</a>
+    </div>
+</div>
+
+<!-- ✅ CSP-safe external JS -->
+<script src="/js/index.js" defer></script>
+
+</body>
+</html>

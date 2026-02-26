@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>LoveConnect Admin</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body { margin:0; font-family:Arial, sans-serif; background:#f4f6f9; }
+header { background:#111827; color:white; padding:16px; font-size:18px; font-weight:bold; display:flex; justify-content:space-between; align-items:center; }
+.layout { display:flex; min-height:100vh; }
+.nav { width:230px; background:#1f2937; padding:20px; display:flex; flex-direction:column; gap:8px; }
+.nav button { padding:10px; background:#374151; border:none; color:white; cursor:pointer; text-align:left; border-radius:6px; }
+.nav button.active { background:#2563eb; }
+.content { flex:1; padding:20px; }
+.page { display:none; }
+.page.active { display:block; }
+
+.card-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:15px; }
+.card { background:white; padding:15px; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.05); }
+
+.section { margin-top:25px; background:white; padding:20px; border-radius:8px; }
+
+table { width:100%; border-collapse:collapse; background:white; }
+th, td { padding:10px; border-bottom:1px solid #eee; text-align:left; }
+th { background:#f9fafb; }
+
+input, select { width:100%; padding:8px; margin-bottom:10px; }
+
+button.primary { background:#2563eb; color:white; border:none; padding:10px; cursor:pointer; border-radius:6px; }
+
+.small { font-size:13px; color:#777; }
+
+.top-actions { display:flex; gap:10px; }
+</style>
+</head>
+
+<body>
+
+<header>
+<span>LoveConnect Admin Panel</span>
+<div class="top-actions">
+<button id="refreshBtn" class="primary">Refresh</button>
+</div>
+</header>
+
+<div class="layout">
+
+<!-- SIDEBAR -->
+<div class="nav">
+<button data-page="dashboard" class="active">Dashboard</button>
+<button data-page="users">Users</button>
+<button data-page="transactions">Transactions</button>
+<button data-page="settings">Settings</button>
+<button data-page="logout" style="color:#ffaaaa">Logout</button>
+</div>
+
+<!-- MAIN -->
+<div class="content">
+
+<!-- DASHBOARD -->
+<div id="dashboard" class="page active">
+
+<div class="card-grid">
+<div class="card">
+<h4>Total Revenue</h4>
+<div id="statRevenue">₦0</div>
+</div>
+
+<div class="card">
+<h4>Coins Sold</h4>
+<div id="coins">0</div>
+</div>
+
+<div class="card">
+<h4>Total Withdrawals</h4>
+<div id="withdraw">₦0</div>
+</div>
+
+<div class="card">
+<h4>Total Users</h4>
+<div id="statUsers">0</div>
+</div>
+</div>
+
+<div class="section">
+<h3>Call Analytics</h3>
+<p>Total Seconds: <span id="totalCallSeconds">0</span></p>
+<p>Admin Revenue: <span id="adminRevenue">0</span></p>
+<p>Creator Revenue: <span id="creatorRevenue">0</span></p>
+</div>
+
+<div class="section">
+<h3>Locked Post Analytics</h3>
+<p>Total Revenue: <span id="lockedRevenue">0 coins</span></p>
+<p>Admin Earnings: <span id="adminEarnings">0 coins</span></p>
+</div>
+
+</div>
+
+
+<!-- USERS -->
+<div id="users" class="page">
+<h2>Users</h2>
+<table id="usersTable"></table>
+</div>
+
+
+<!-- TRANSACTIONS -->
+<div id="transactions" class="page">
+<h2>Transactions</h2>
+<table id="txTable"></table>
+</div>
+
+
+<!-- SETTINGS -->
+<div id="settings" class="page">
+
+<!-- CORE -->
+<div class="section">
+<h3>Core Configuration</h3>
+<input id="coinPrice" type="number" placeholder="Coin Price">
+<input id="withdrawalFeePercent" type="number" placeholder="Withdrawal Fee %">
+<input id="configReason" placeholder="Reason for change (optional)">
+</div>
+
+<!-- USAGE PRICING -->
+<div class="section">
+<h3>Usage Pricing</h3>
+<input id="usageMessage" type="number" placeholder="Message Price per Letter">
+<input id="usageVoice" type="number" placeholder="Voice Price per Second">
+<input id="usageVideo" type="number" placeholder="Video Price per Second">
+<input id="usagePicturePost" type="number" placeholder="Picture Post Price">
+<input id="usageVideoPost" type="number" placeholder="Video Post Price">
+</div>
+
+<!-- ADMIN PERCENT -->
+<div class="section">
+<h3>Admin Percentages</h3>
+<input id="adminLockedPost" type="number" placeholder="Locked Post Admin %">
+<input id="adminVoiceCall" type="number" placeholder="Voice Call Admin % (optional)">
+<input id="adminVideoCall" type="number" placeholder="Video Call Admin % (optional)">
+<input id="adminMessage" type="number" placeholder="Message Admin % (optional)">
+</div>
+
+<!-- BONUS RULES -->
+<div class="section">
+<h3>Bonus Rules</h3>
+<input id="bonusNewUser" type="number" placeholder="New User Bonus">
+<input id="bonusDailyLogin" type="number" placeholder="Daily Login Bonus">
+</div>
+
+<button id="saveSettingsBtn" class="primary">Save Settings</button>
+
+<!-- GRANT BONUS -->
+<div class="section">
+<h3>Grant Bonus</h3>
+<input id="bonusUsername" placeholder="Username">
+<input id="bonusAmount" type="number" placeholder="Amount">
+<button id="grantBonusBtn" class="primary">Grant Bonus</button>
+<p id="bonusMsg" class="small"></p>
+</div>
+
+<!-- USER STATUS -->
+<div class="section">
+<h3>User Status</h3>
+<input id="statusUsername" placeholder="Username">
+<select id="userAction">
+<option value="">Select Action</option>
+<option value="ban">Ban</option>
+<option value="unban">Unban</option>
+<option value="suspend">Suspend</option>
+<option value="unsuspend">Unsuspend</option>
+</select>
+<input id="suspendUntil" type="datetime-local">
+<button id="applyUserStatus" class="primary">Apply</button>
+<p id="statusMsg" class="small"></p>
+</div>
+
+</div>
+
+</div>
+</div>
+<script src="/socket.io/socket.io.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>

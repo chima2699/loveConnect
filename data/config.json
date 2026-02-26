@@ -1,0 +1,26 @@
+{
+  "coinPrice": 1,
+  "withdrawalFeePercent": 5,
+  "minWithdrawal": 0,
+  "withdrawalsEnabled": true,
+  "transfersEnabled": true,
+  "salesEnabled": true,
+  "usagePrices": {
+    "message": 1,
+    "voice": 2,
+    "video": 3,
+    "picturePost": 0,
+    "videoPost": 0
+  },
+  "adminPercents": {
+    "lockedPost": 20,
+    "voiceCall": 25,
+    "videoCall": 25,
+    "message": 40
+  },
+  "bonusRules": {
+    "newUser": 0,
+    "dailyLogin": 0
+  },
+  "updatedAt": "2026-02-10T02:18:12.422Z"
+}

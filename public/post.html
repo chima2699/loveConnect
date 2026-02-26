@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Posts | LoveConnect</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<style>
+body{
+    margin:0;
+    background:#f5f6fa;
+    font-family:Arial, sans-serif;
+}
+.topbar{
+    padding:14px;
+    background:white;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    box-shadow:0 2px 8px #0002;
+}
+.topbar h2{
+    margin:0;
+    background:linear-gradient(135deg,#ff2d75,#ff6aa5);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+.container{
+    max-width:520px;
+    margin:auto;
+    padding:14px;
+}
+.post video {
+  width: 100%;
+  border-radius: 10px;
+  margin-top: 8px;
+  max-height: 420px;
+  object-fit: cover;
+}
+
+.card{
+    background:white;
+    border-radius:14px;
+    padding:14px;
+    margin-bottom:14px;
+    box-shadow:0 2px 10px #0002;
+}
+textarea,input{
+    width:100%;
+    padding:10px;
+    border-radius:10px;
+    border:1px solid #ddd;
+    margin-top:8px;
+}
+button{
+    padding:8px 12px;
+    border:none;
+    border-radius:8px;
+    background:#ff2d75;
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+}
+button.small{
+    padding:6px 10px;
+    font-size:13px;
+}
+button:disabled{ opacity:.6 }
+.post-img{
+    width:100%;
+    border-radius:10px;
+    margin-top:8px;
+}
+.actions{
+    display:flex;
+    gap:10px;
+    margin-top:8px;
+    flex-wrap:wrap;
+}
+.comment{
+    margin-top:8px;
+    padding-left:10px;
+    border-left:3px solid #eee;
+}
+.reply{
+    margin-left:12px;
+    font-size:14px;
+    color:#555;
+}
+.comments{
+    margin-top:10px;
+}
+
+/* 🔒 LOCKED POST */
+.locked {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Blur effect */
+.blur {
+  filter: blur(18px);
+  transition: filter 0.4s ease, opacity 0.4s ease;
+}
+
+/* Remove blur smoothly after unlock */
+.locked.unlocked .blur {
+  filter: blur(0);
+  opacity: 0;
+}
+
+/* Unlock button */
+.unlock-btn {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  height: 45px;
+  width: fit-content;
+  padding: 10px 18px;
+  border-radius: 10px;
+  border: none;
+  background: #ff2d75;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+/* Hide button after unlock */
+.locked.unlocked .unlock-btn {
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.9);
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+    <h2>Posts</h2>
+    <a href="swipe.html">⬅ Home</a>
+</div>
+
+<div class="container">
+
+    <!-- CREATE POST -->
+    <div class="card">
+  <h3>Create Post</h3>
+
+  <textarea id="postText" placeholder="What's on your mind?"></textarea>
+
+  <input
+    type="file"
+    id="postImage"
+    accept="image/*,video/mp4,video/webm"
+  />
+
+  <!-- LOCK OPTION -->
+  <label style="margin-top:8px;display:block;">
+    <input type="checkbox" id="lockPost">
+    Lock this post
+  </label>
+
+  <input
+    type="number"
+    id="lockPrice"
+    placeholder="Unlock price (coins)"
+    min="1"
+    style="display:none;margin-top:6px;"
+  />
+
+  <button id="postBtn">Post</button>
+
+
+<div id="posts"></div>
+
+
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+
+<!-- External JS (secure & CSP-safe) -->
+<script src="/js/post.js" defer></script>
+
+
+</body>
+</html>

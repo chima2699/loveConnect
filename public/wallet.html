@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Wallet | LoveConnect</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<style>
+body{
+    margin:0;
+    background:#f6f7fb;
+    font-family:'Segoe UI',sans-serif;
+    padding-bottom:90px;
+}
+
+.topbar{
+    background:#fff;
+    padding:15px;
+    text-align:center;
+    font-size:22px;
+    font-weight:800;
+    color:#ff2d75;
+    position:sticky;
+    top:0;
+    z-index:10;
+    box-shadow:0 2px 6px rgba(0,0,0,.1);
+}
+
+.container{
+    width:92%;
+    max-width:600px;
+    margin:22px auto;
+}
+
+.balance-card{
+    background:linear-gradient(135deg,#ff2d75,#ff6a95);
+    color:#fff;
+    padding:26px;
+    border-radius:18px;
+    text-align:center;
+}
+
+.balance-card h1{
+    margin:8px 0;
+    font-size:40px;
+}
+
+.sub-bal{
+    font-size:14px;
+    opacity:.9;
+}
+
+.section{
+    background:#fff;
+    padding:18px;
+    border-radius:14px;
+    margin-top:22px;
+    box-shadow:0 3px 10px rgba(0,0,0,.08);
+}
+
+.section h3{
+    color:#ff2d75;
+    margin:0 0 10px;
+}
+
+input,button{
+    width:100%;
+    padding:13px;
+    margin-top:10px;
+    border-radius:10px;
+    border:1px solid #ccc;
+    font-size:15px;
+}
+
+button{
+    background:#ff2d75;
+    color:#fff;
+    border:none;
+    cursor:pointer;
+}
+
+button:disabled{
+    background:#ccc;
+    cursor:not-allowed;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:12px;
+    font-size:14px;
+}
+
+th,td{
+    padding:10px;
+    border-bottom:1px solid #eee;
+}
+
+th{ color:#ff2d75; }
+
+.green{color:green;font-weight:700}
+.red{color:red;font-weight:700}
+
+.bottombar{
+    position:fixed;
+    bottom:0;left:0;right:0;
+    height:70px;
+    background:#fff;
+    display:flex;
+    justify-content:space-around;
+    align-items:center;
+    box-shadow:0 -2px 8px rgba(0,0,0,.1);
+}
+
+.bottombar a{
+    text-decoration:none;
+    color:#555;
+    font-size:13px;
+    text-align:center;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 400px;
+}
+
+.hidden {
+  display: none;
+}
+
+</style>
+</head>
+
+<div id="bottomBarContainer"></div>
+<script src="/js/bottombar.js"></script>
+
+<body>
+
+<div class="topbar">My Wallet</div>
+
+<div class="container">
+
+    <div class="balance-card">
+        <p>Total Balance</p>
+        <h1><span id="totalBal">0</span> Coins</h1>
+        <p class="sub-bal">
+  Withdrawable: <b id="withdrawableBal">0</b> •
+  Purchased: <b id="purchasedBal">0</b> •
+  Bonus: <b id="bonusBal">0</b>
+</p>
+
+    </div>
+    <div class="section">
+    <h3>🏦 Withdraw Coins</h3>
+
+    <p style="font-size:13px;color:#777">
+        Only withdrawable coins can be withdrawn. Bonus coins are not withdrawable.
+    </p>
+
+    <input
+        id="withdrawCoins"
+        type="number"
+        placeholder="Enter coins to withdraw"
+        min="1"
+    >
+
+    <button id="withdrawBtn">Request Withdrawal</button>
+
+    <p id="withdrawNote" style="font-size:13px;color:#888;margin-top:8px"></p>
+</div>
+
+
+    <div class="section">
+        <h3>🛒 Buy Coins</h3>
+        <input id="buyCoins" type="number" placeholder="Enter coin amount">
+        <button id="calcBtn" type="button">Calculate Price</button>
+        <p id="buyCalc" style="font-size:13px;color:#777"></p>
+        <button id="buyBtn" type="button" style="display:none">Proceed to Payment</button>
+    </div>
+
+    <div class="section">
+    <h3>📤 Send Coins</h3>
+
+    <div style="position:relative">
+        <input id="sendTo" placeholder="Recipient username" autocomplete="off">
+        <div id="userSuggestions"
+             style="
+                position:absolute;
+                top:48px;
+                left:0;
+                right:0;
+                background:#fff;
+                border-radius:10px;
+                box-shadow:0 6px 18px rgba(0,0,0,.15);
+                max-height:220px;
+                overflow:auto;
+                display:none;
+                z-index:50;
+             ">
+        </div>
+    </div>
+
+    <input id="sendAmount" type="number" placeholder="Coins to send">
+    <button id="sendBtn" type="button">Send Coins</button>
+</div>
+
+
+    <div class="section">
+        <h3>📜 Transactions</h3>
+        <div id="txList">Loading...</div>
+    </div>
+
+</div>
+
+<div id="phoneVerifyModal" class="modal hidden">
+  <div class="modal-content">
+    <h3>Verify your phone</h3>
+
+    <input
+      type="tel"
+      id="phoneInput"
+      placeholder="08012345678"
+    />
+
+    <button id="sendOtpBtn">Send OTP</button>
+
+    <div id="otpBox" class="hidden">
+      <input
+        type="text"
+        id="otpInput"
+        placeholder="Enter OTP"
+      />
+      <button id="verifyOtpBtn">Verify OTP</button>
+    </div>
+
+    <p id="phoneMsg"></p>
+  </div>
+</div>
+
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/wallet.js" defer></script>
+</body>
+</html>

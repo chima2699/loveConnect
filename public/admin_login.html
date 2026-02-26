@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Admin Login | LoveConnect</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<style>
+body{
+    margin:0;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:#0f0f14;
+    font-family:Arial,sans-serif;
+    color:#fff;
+}
+.box{
+    width:92%;
+    max-width:380px;
+    background:#1a1a22;
+    padding:24px;
+    border-radius:14px;
+    box-shadow:0 0 20px #0008;
+}
+h2{
+    text-align:center;
+    margin-bottom:18px;
+    background:linear-gradient(135deg,#ff2d75,#ff6aa5);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+input{
+    width:100%;
+    padding:12px;
+    margin-top:12px;
+    border:none;
+    border-radius:10px;
+    background:#0f0f14;
+    color:#fff;
+    font-size:15px;
+}
+button{
+    width:100%;
+    padding:12px;
+    margin-top:18px;
+    border:none;
+    border-radius:10px;
+    background:#ff2d75;
+    color:#fff;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+}
+button:disabled{
+    opacity:.6;
+    cursor:not-allowed;
+}
+#error{
+    margin-top:12px;
+    color:#ff9090;
+    text-align:center;
+    display:none;
+    font-size:14px;
+}
+.small{
+    text-align:center;
+    font-size:13px;
+    color:#aaa;
+    margin-top:10px;
+}
+.hidden{display:none}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+    <h2>Admin Login</h2>
+
+    <!-- STEP 1 -->
+    <form id="loginForm">
+        <input id="email" type="email" placeholder="Admin email" required />
+        <input id="password" type="password" placeholder="Password" required />
+        <button id="loginBtn" type="submit">Login</button>
+    </form>
+
+    <!-- STEP 2 -->
+    <form id="otpForm" class="hidden">
+        <input id="otp" type="text" placeholder="Enter 6-digit OTP" maxlength="6" />
+        <button id="otpBtn" type="submit">Verify OTP</button>
+    </form>
+
+    <div id="error"></div>
+
+    <div class="small">
+        Admin access only • Protected by 2FA
+    </div>
+</div>
+
+<!-- ✅ External JS only (CSP safe) -->
+<script src="/js/admin_login.js" defer></script>
+</body>
+</html>

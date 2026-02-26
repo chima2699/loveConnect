@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Edit Profile | LoveConnect</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+  margin:0;
+  background:#f5f6fa;
+  font-family:'Segoe UI',sans-serif;
+}
+
+.container{
+  max-width:420px;
+  margin:auto;
+  padding:20px;
+}
+
+.card{
+  background:#fff;
+  padding:20px;
+  border-radius:22px;
+  box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+h2{
+  margin:0 0 10px;
+  text-align:center;
+  font-size:24px;
+  background:linear-gradient(135deg,#ff2d75,#ff6aa5);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+label{
+  display:block;
+  margin-top:16px;
+  font-size:14px;
+  font-weight:600;
+  color:#444;
+}
+
+input, textarea, select{
+  width:100%;
+  padding:14px;
+  margin-top:6px;
+  border-radius:14px;
+  border:1px solid #ddd;
+  font-size:15px;
+  outline:none;
+}
+
+textarea{
+  resize:none;
+  height:90px;
+}
+
+select{
+  background:#fff;
+}
+
+button{
+  width:100%;
+  margin-top:22px;
+  padding:16px;
+  border:none;
+  border-radius:999px;
+  background:#ff2d75;
+  color:#fff;
+  font-size:16px;
+  font-weight:800;
+  cursor:pointer;
+  box-shadow:0 6px 16px rgba(255,45,117,.4);
+}
+
+button:disabled{
+  opacity:.6;
+  cursor:not-allowed;
+}
+
+/* Tinder-like option pills */
+.select-row{
+  display:flex;
+  gap:10px;
+  margin-top:8px;
+}
+
+.select-row select{
+  flex:1;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <div class="card">
+
+    <h2>Edit Profile</h2>
+
+    <label>Full Name</label>
+    <input id="fullname" placeholder="Your full name">
+
+    <label>Age</label>
+    <input id="age" type="number" placeholder="Your age">
+
+    <label>Your Gender</label>
+    <select id="gender">
+      <option value="">Select gender</option>
+      <option value="Male">Male</option>
+      <option value="Female">Female</option>
+    </select>
+
+    <label>Interested In</label>
+    <select id="interestedIn">
+      <option value="">Interested in</option>
+      <option value="Male">Men</option>
+      <option value="Female">Women</option>
+    </select>
+
+    <label>Location</label>
+    <input id="location" placeholder="City, Country">
+
+    <label>About You</label>
+    <textarea id="bio" placeholder="Tell people about yourself…"></textarea>
+
+    <button id="saveBtn">Save Changes</button>
+
+  </div>
+</div>
+
+<script src="/js/profile_edit.js" defer></script>
+</body>
+</html>

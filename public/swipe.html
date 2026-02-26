@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>LoveConnect – Swipe</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<style>
+body{
+    margin:0;
+    background:#f5f6fa;
+    font-family:'Segoe UI',sans-serif;
+    overflow:hidden;
+}
+
+/* TOP BAR */
+.topbar{
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    height:64px;
+    background:#fff;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:0 16px;
+    box-shadow:0 2px 6px rgba(0,0,0,.08);
+    z-index:100;
+}
+.topbar h2{
+    margin:0;
+    font-size:22px;
+    font-weight:800;
+    background:linear-gradient(135deg,#ff2d75,#ff6aa5);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+.topbar a{
+    font-size:22px;
+    text-decoration:none;
+}
+
+/* CARD AREA */
+.card-container{
+    position:absolute;
+    top:70px;
+    bottom:140px;
+    left:0;
+    right:0;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+#cardList{
+    position:relative;
+    width:100%;
+    height:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+/* CARD */
+.card{
+    width:92%;
+    max-width:380px;
+    height:100%;
+    max-height:520px;
+    background:#fff;
+    border-radius:22px;
+    box-shadow:0 12px 30px rgba(0,0,0,.25);
+    overflow:hidden;
+    position:absolute;
+    display:flex;
+    flex-direction:column;
+    transition:transform .25s ease, opacity .25s ease;
+}
+
+.card a{
+    flex:1;
+    display:block;
+}
+
+.card img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+/* INFO OVERLAY */
+.card-info{
+    padding:14px;
+    background:#fff;
+}
+.card-info h3{
+    margin:0;
+    font-size:18px;
+}
+.card-info p{
+    margin:6px 0 0;
+    color:#666;
+    font-size:14px;
+}
+
+/* ACTION BUTTONS */
+.actions{
+    position:fixed;
+    bottom:85px;
+    left:0;
+    right:0;
+    display:flex;
+    justify-content:center;
+    gap:50px;
+}
+.actions button{
+    width:66px;
+    height:66px;
+    border-radius:50%;
+    border:none;
+    font-size:28px;
+    cursor:pointer;
+    box-shadow:0 4px 14px rgba(0,0,0,.3);
+}
+.nope{background:#fff;}
+.yes{background:#ff2d75;color:#fff;}
+
+/* BOTTOM NAV */
+.bottom-nav{
+    position:fixed;
+    bottom:0;
+    left:0;
+    right:0;
+    height:70px;
+    background:#fff;
+    box-shadow:0 -2px 8px rgba(0,0,0,.12);
+    display:flex;
+    justify-content:space-around;
+    align-items:center;
+}
+.bottom-nav a{
+    text-decoration:none;
+    color:#777;
+    font-size:12px;
+    text-align:center;
+}
+.bottom-nav a.active{
+    color:#ff2d75;
+    font-weight:700;
+}
+.bottom-nav span{
+    display:block;
+    font-size:22px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+    <h2>LoveConnect</h2>
+    <a href="message_list.html" title="Messages">💬</a>
+</div>
+
+<!-- SWIPE CARDS -->
+<div class="card-container">
+    <div id="cardList"></div>
+</div>
+
+<!-- ACTION BUTTONS -->
+<div class="actions">
+   <button class="nope" id="btnNope">❌</button>
+<button class="yes" id="btnYes">❤️</button>
+</div>
+
+<!-- BOTTOM NAV -->
+<div class="bottom-nav">
+    <a href="swipe.html" class="active"><span>❤️</span>Swipe</a>
+    <a href="post.html"><span>✍️</span>Create</a>
+    <a href="create_post.html"><span>➕</span>Post</a>
+    <a href="search.html"><span>🔎</span>search</a>
+    <a href="wallet.html"><span>💰</span>Wallet</a>
+    <a href="profile.html"><span>👤</span>Profile</a>
+</div>
+
+<script src="/js/swipe.js" defer></script>
+</body>
+</html>

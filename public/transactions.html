@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Transaction History | LoveConnect</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<style>
+  body {
+    margin:0;
+    padding:20px;
+    background:#f5f6fa;
+    font-family:'Segoe UI', sans-serif;
+    display:flex;
+    justify-content:center;
+  }
+
+  .container {
+    background:#fff;
+    width:100%;
+    max-width:560px;
+    padding:20px;
+    border-radius:16px;
+    box-shadow:0 6px 18px rgba(0,0,0,.12);
+    animation:fadeIn .25s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity:0; transform:translateY(10px); }
+    to { opacity:1; transform:translateY(0); }
+  }
+
+  .top {
+    display:flex;
+    align-items:center;
+    margin-bottom:10px;
+  }
+
+  .back-btn {
+    text-decoration:none;
+    color:#ff2d75;
+    font-size:18px;
+    font-weight:600;
+  }
+
+  h2 {
+    text-align:center;
+    margin:10px 0 18px;
+    font-size:24px;
+    color:#ff2d75;
+    font-weight:800;
+  }
+
+  .filter-box {
+    display:flex;
+    gap:10px;
+    margin-bottom:15px;
+  }
+
+  .filter-box input,
+  .filter-box select {
+    flex:1;
+    padding:10px;
+    border-radius:8px;
+    border:1px solid #ddd;
+    background:#fafafa;
+    font-size:14px;
+  }
+
+  table {
+    width:100%;
+    border-collapse:collapse;
+    font-size:14px;
+  }
+
+  th {
+    padding:10px;
+    background:#ff2d75;
+    color:#fff;
+    font-size:12px;
+    text-align:left;
+  }
+
+  td {
+    padding:10px;
+    border-bottom:1px solid #eee;
+  }
+
+  .positive { color:#2ecc71; font-weight:700; }
+  .negative { color:#e74c3c; font-weight:700; }
+
+  .empty {
+    text-align:center;
+    color:#888;
+    padding:20px 0;
+    font-size:15px;
+  }
+
+  .pagination {
+    display:flex;
+    justify-content:space-between;
+    margin-top:15px;
+  }
+
+  .pagination button {
+    padding:8px 14px;
+    border:none;
+    border-radius:8px;
+    background:#ff2d75;
+    color:white;
+    font-weight:600;
+    cursor:pointer;
+  }
+
+  .pagination button:disabled {
+    background:#ccc;
+    cursor:not-allowed;
+  }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <div class="top">
+    <a href="wallet.html" class="back-btn">⬅ Back</a>
+  </div>
+
+  <h2>Transaction History</h2>
+
+  <!-- FILTERS -->
+  <div class="filter-box">
+    <select id="typeFilter">
+      <option value="">All Types</option>
+      <option value="purchase">Purchase</option>
+      <option value="gift_sent">Gift Sent</option>
+      <option value="gift_received">Gift Received</option>
+      <option value="spend">Spend</option>
+      <option value="bonus">Bonus</option>
+      <option value="withdrawal">Withdrawal</option>
+    </select>
+
+    <input id="searchBox" placeholder="Search reference or type…">
+  </div>
+
+  <!-- TRANSACTIONS -->
+  <div id="txContainer">Loading…</div>
+
+  <!-- PAGINATION -->
+  <div class="pagination">
+    <button id="prevPage">⬅ Prev</button>
+    <button id="nextPage">Next ➡</button>
+  </div>
+</div>
+
+<!-- ✅ CSP-safe external JS -->
+<script src="/js/transactions.js" defer></script>
+
+</body>
+</html>

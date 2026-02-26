@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<title>Buy Coins | LoveConnect</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<style>
+    body {
+        margin: 0;
+        background: #f6f7fb;
+        font-family: 'Segoe UI', sans-serif;
+        padding-bottom: 100px;
+    }
+
+    .topbar {
+        background: white;
+        padding: 15px;
+        text-align: center;
+        font-size: 22px;
+        font-weight: bold;
+        color: #ff2d75;
+        position: sticky;
+        top: 0;
+        box-shadow: 0 2px 8px rgba(0,0,0,.15);
+    }
+
+    .container {
+        width: 92%;
+        max-width: 550px;
+        margin: 18px auto;
+    }
+
+    .section {
+        background: white;
+        padding: 20px;
+        border-radius: 14px;
+        box-shadow: 0 3px 10px #0002;
+        margin-bottom: 22px;
+    }
+
+    h3 { margin: 0 0 10px; color:#ff2d75; }
+
+    input {
+        width: 100%;
+        padding: 13px;
+        border-radius: 12px;
+        border: 1px solid #ccc;
+        background: #fafafa;
+        margin-top: 6px;
+        font-size: 15px;
+    }
+
+    button {
+        width: 100%;
+        padding: 14px;
+        margin-top: 16px;
+        border: none;
+        border-radius: 12px;
+        background: #ff2d75;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    button:disabled {
+        opacity: .6;
+        cursor: not-allowed;
+    }
+
+    .summary-box {
+        background: #fff3f8;
+        padding: 12px;
+        border-radius: 10px;
+        margin-top: 12px;
+        border-left: 4px solid #ff2d75;
+        display:none;
+    }
+
+    .gateway-btn {
+        padding: 14px;
+        border-radius: 10px;
+        border:none;
+        color:white;
+        font-size:16px;
+        margin-top:10px;
+        cursor:pointer;
+    }
+
+    .paystack { background:#02a65c; }
+    .flutterwave { background:#ffb100; }
+    .stripe { background:#635bff; }
+</style>
+</head>
+
+<body>
+
+<div class="topbar">Buy Coins</div>
+
+<div class="container">
+
+    
+
+
+
+    <div class="section">
+        <h3>🪙 Enter Coin Amount</h3>
+        <input type="number" id="coinsInput" placeholder="e.g. 200" min="1">
+        <button id="calcBtn">Calculate</button>
+        <div id="summary" class="summary-box"></div>
+    </div>
+
+    <div id="paymentMethods" class="section" style="display:none;">
+        <h3>💳 Payment Method</h3>
+        <button class="gateway-btn paystack" id="paystackBtn">Pay with Paystack</button>
+        <button class="gateway-btn flutterwave" id="flutterwaveBtn">Pay with Flutterwave</button>
+        <button class="gateway-btn stripe" id="stripeBtn">Pay with Stripe</button>
+    </div>
+
+</div>
+
+<script src="/js/payment.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Login | LoveConnect</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        background: linear-gradient(135deg, #ff2d75, #ff6aa5);
+        font-family: "Segoe UI", Tahoma, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .wrapper {
+        width: 92%;
+        max-width: 420px;
+        animation: fadeIn 0.4s ease;
+    }
+
+    .logo {
+        text-align: center;
+        margin-bottom: 18px;
+        color: #fff;
+        font-size: 34px;
+        font-weight: bold;
+    }
+
+    .box {
+        background: #fff;
+        padding: 28px;
+        border-radius: 18px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+
+    h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #ff2d75;
+    }
+
+    input {
+        width: 100%;
+        padding: 14px;
+        margin-top: 12px;
+        border-radius: 12px;
+        border: 1px solid #ddd;
+        background: #fafafa;
+        font-size: 15px;
+        outline: none;
+    }
+
+    input:focus {
+        border-color: #ff2d75;
+        background: #fff;
+    }
+
+    button {
+        width: 100%;
+        padding: 14px;
+        margin-top: 18px;
+        border: none;
+        border-radius: 14px;
+        background: linear-gradient(135deg, #ff2d75, #ff6aa5);
+        color: #fff;
+        font-size: 17px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    button:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+
+    .link {
+        text-align: center;
+        margin-top: 16px;
+        font-size: 14px;
+    }
+
+    .link a {
+        color: #ff2d75;
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+    #error {
+        margin-top: 12px;
+        padding: 10px;
+        border-radius: 10px;
+        background: #ffe1e1;
+        color: #b30000;
+        text-align: center;
+        font-size: 14px;
+        display: none;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(15px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+</head>
+
+<body>
+
+<div class="wrapper">
+    <div class="logo">❤ LoveConnect</div>
+
+    <div class="box">
+        <h2>Welcome Back</h2>
+
+        <form id="loginForm" autocomplete="off">
+            <input id="email" type="email" placeholder="Email" required />
+            <input id="password" type="password" placeholder="Password" required />
+            <button id="loginBtn" type="submit">Login</button>
+        </form>
+
+        <div id="error"></div>
+
+        <div class="link">
+            Don’t have an account? <a href="register.html">Create one</a>
+        </div>
+    </div>
+</div>
+
+<!-- ✅ External JS only (CSP safe) -->
+<script src="/js/login.js" defer></script>
+
+</body>
+</html>

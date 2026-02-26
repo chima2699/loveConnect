@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Search | LoveConnect</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<style>
+  body {
+    margin:0;
+    background:#f5f6fa;
+    font-family:'Segoe UI', Arial, sans-serif;
+  }
+
+  .header {
+    background:#ff2d75;
+    padding:15px;
+    color:white;
+    font-size:22px;
+    font-weight:bold;
+    text-align:center;
+    box-shadow:0 2px 8px rgba(0,0,0,0.15);
+  }
+
+  .filter-box {
+    background:white;
+    padding:15px;
+    box-shadow:0 3px 8px rgba(0,0,0,0.05);
+    margin:10px;
+    border-radius:10px;
+  }
+
+  .filter-box label {
+    font-size:14px;
+    font-weight:bold;
+    margin-top:10px;
+    display:block;
+  }
+
+  .filter-box input,
+  .filter-box select {
+    width:100%;
+    padding:10px;
+    margin-top:5px;
+    border-radius:8px;
+    border:1px solid #ccc;
+    background:#fafafa;
+  }
+
+  .filter-box .row {
+    display:flex;
+    gap:10px;
+  }
+
+  .checkbox {
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-top:10px;
+  }
+
+  .results { padding:15px; }
+
+  .user-card {
+    background:white;
+    padding:15px;
+    margin-bottom:15px;
+    border-radius:12px;
+    display:flex;
+    gap:15px;
+    align-items:center;
+    box-shadow:0 2px 8px rgba(0,0,0,0.05);
+    cursor:pointer;
+    transition:transform .15s;
+  }
+
+  .user-card:hover { transform:scale(1.02); }
+
+  .user-card img {
+    width:70px;
+    height:70px;
+    border-radius:12px;
+    object-fit:cover;
+  }
+
+  .info { flex:1; }
+
+  .name {
+    font-size:17px;
+    font-weight:bold;
+    color:#222;
+  }
+
+  .bio {
+    color:#555;
+    font-size:13px;
+    margin-top:4px;
+  }
+
+  .distance {
+    color:#ff2d75;
+    font-size:13px;
+    margin-top:3px;
+    font-weight:bold;
+  }
+
+  .status-dot {
+    width:10px;
+    height:10px;
+    border-radius:50%;
+    background:#29d458;
+    display:inline-block;
+    margin-left:6px;
+  }
+
+  .verified {
+    color:#1e90ff;
+    font-size:13px;
+    margin-left:4px;
+  }
+
+  .shimmer {
+    width:100%;
+    height:70px;
+    background:linear-gradient(90deg, #eee 25%, #f7f7f7 50%, #eee 75%);
+    background-size:400% 100%;
+    border-radius:10px;
+    margin:10px 0;
+    animation: shimmer 1.3s infinite;
+  }
+
+  @keyframes shimmer {
+    0% {background-position:-400px 0}
+    100% {background-position:400px 0}
+  }
+</style>
+</head>
+
+<body>
+
+<div class="header">🔎 Search People</div>
+
+<div class="filter-box">
+  <label>Username</label>
+  <input id="usernameFilter" placeholder="Type name...">
+
+  <label>Gender</label>
+  <select id="genderFilter">
+    <option value="">Any</option>
+    <option>Male</option>
+    <option>Female</option>
+  </select>
+
+  <label>Interested In</label>
+  <select id="interestFilter">
+    <option value="">Any</option>
+    <option>Male</option>
+    <option>Female</option>
+    <option>Both</option>
+  </select>
+
+  <label>Age Range</label>
+  <div class="row">
+    <input type="number" id="ageMin" placeholder="Min">
+    <input type="number" id="ageMax" placeholder="Max">
+  </div>
+
+  <div class="checkbox">
+    <input type="checkbox" id="verifiedOnly">
+    <label for="verifiedOnly">Verified users only</label>
+  </div>
+</div>
+
+<div class="results" id="results">
+  <div class="shimmer"></div>
+  <div class="shimmer"></div>
+  <div class="shimmer"></div>
+</div>
+
+<script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+<script src="/js/search.js" defer></script>
+</body>
+</html>

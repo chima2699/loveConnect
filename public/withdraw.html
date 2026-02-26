@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Withdraw Coins | LoveConnect</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+  margin:0;
+  background:#f5f6fa;
+  font-family:'Segoe UI',sans-serif;
+}
+.container{
+  max-width:500px;
+  margin:auto;
+  padding:20px;
+}
+.card{
+  background:white;
+  padding:20px;
+  border-radius:16px;
+  box-shadow:0 4px 14px #0002;
+}
+h2{
+  text-align:center;
+  color:#ff2d75;
+}
+label{
+  font-size:14px;
+  color:#555;
+}
+input{
+  width:100%;
+  padding:12px;
+  border-radius:8px;
+  border:1px solid #ccc;
+  margin:6px 0 14px;
+  font-size:15px;
+}
+button{
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:10px;
+  background:#ff2d75;
+  color:white;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+}
+button:disabled{
+  opacity:.6;
+  cursor:not-allowed;
+}
+.summary{
+  background:#fafafa;
+  padding:12px;
+  border-radius:10px;
+  margin-bottom:14px;
+  font-size:14px;
+}
+.summary div{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:6px;
+}
+.warn{
+  background:#fff3cd;
+  color:#856404;
+  padding:10px;
+  border-radius:8px;
+  margin-bottom:10px;
+  font-size:14px;
+}
+a{
+  text-decoration:none;
+  color:#ff2d75;
+}
+.top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <div class="top">
+    <a href="wallet.html">⬅ Back</a>
+    <span></span>
+  </div>
+
+  <div class="card">
+    <h2>Withdraw Coins</h2>
+
+    <div id="warning" class="warn" style="display:none"></div>
+
+    <label>Available Coins</label>
+    <input id="balance" disabled>
+
+    <label>Coins to Withdraw</label>
+    <input id="amount" type="number" placeholder="Enter coins">
+
+    <div class="summary">
+      <div><span>Fee</span><span id="fee">0</span></div>
+      <div><span>You Receive</span><span id="net">0</span></div>
+    </div>
+
+    <button id="withdrawBtn">Request Withdrawal</button>
+  </div>
+</div>
+
+<script src="/js/withdraw.js" defer></script>
+</body>
+</html>

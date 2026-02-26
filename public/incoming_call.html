@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Incoming Call | LoveConnect</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background: #000;
+        font-family: Arial, sans-serif;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .incoming-box {
+        text-align: center;
+        animation: slideUp 350ms ease;
+    }
+
+    @keyframes slideUp {
+        from { transform: translateY(40px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+    }
+
+    .photo {
+        width: 140px;
+        height: 140px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-bottom: 20px;
+        box-shadow: 0 0 20px #ff2d75;
+    }
+
+    .name {
+        font-size: 26px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .type {
+        font-size: 16px;
+        color: #ccc;
+        margin-bottom: 35px;
+    }
+
+    .buttons {
+        display: flex;
+        justify-content: center;
+        gap: 35px;
+        margin-top: 20px;
+    }
+
+    .btn {
+        width: 75px;
+        height: 75px;
+        border-radius: 50%;
+        font-size: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        box-shadow: 0 0 10px #0009;
+        transition: 150ms ease;
+    }
+
+    .btn:active {
+        transform: scale(0.85);
+    }
+
+    .accept { background: #28d658; }
+    .reject { background: #ff2d2d; }
+</style>
+</head>
+
+<body>
+
+<!-- 🔔 Ringtone -->
+<audio id="ringtone" src="ring.mp3" loop></audio>
+
+<div class="incoming-box">
+    <img id="callerPhoto" class="photo" src="default.png">
+    <div class="name" id="callerName">Incoming Call</div>
+    <div class="type" id="callTypeText">Voice Call</div>
+
+    <div class="buttons">
+        <div class="btn reject" id="rejectBtn">✖</div>
+        <div class="btn accept" id="acceptBtn">📞</div>
+    </div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+
+<!-- ✅ External JS only -->
+<script src="/js/incoming_call.js" defer></script>
+
+</body>
+</html>
