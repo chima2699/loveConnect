@@ -1,2 +1,53 @@
-node_modules
+# NODE
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ENV FILES (CRITICAL)
 .env
+.env.*
+!.env.example
+
+# DATABASE FILES
+*.sqlite
+*.db
+
+# LOGS
+logs/
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# EDITORS
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# BUILD
+dist/
+build/
+tmp/
+temp/
+
+# COVERAGE
+coverage/
+
+# CACHE
+.cache/
+
+# UPLOADS
+uploads/
+public/uploads/
+
+# RUNTIME
+*.pid
+*.seed
+*.pid.lock
+
+# LOCAL CONFIG
+config/local.json

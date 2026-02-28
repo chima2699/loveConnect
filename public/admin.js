@@ -7,7 +7,7 @@
   const token = localStorage.getItem("adminToken");
   const adminUsername = localStorage.getItem("adminUsername") || "admin";
 
-const socket = io("http://localhost:5000");
+const socket = io("https://loveconnect-production-f23d.up.railway.app");
 
 socket.on("connect", ()=>{
  console.log("Admin socket connected");
