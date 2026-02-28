@@ -18,6 +18,7 @@ const { Server } = require("socket.io");
 const socketIo = require('socket.io');
 const crypto = require("crypto");
 const app = express();
+app.set('trust proxy', 1);
 let currentPricing = null;
 const path = require('path');
 const fs = require('fs');
