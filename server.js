@@ -403,7 +403,7 @@ function distanceKm(lat1, lon1, lat2, lon2) {
 }
 
 // ====== es ======
-/*
+
 // Admin login (env-based credentials)
 app.post("/api/admin/login", (req, res) => {
   const { username, password } = req.body;
@@ -424,7 +424,7 @@ app.post("/api/admin/login", (req, res) => {
   res.json({ token, username });
 });
 
-
+/*
 // Root
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/swipe.html'));
@@ -836,7 +836,7 @@ app.get("/api/config/public", async (req,res)=>{
     withdrawalFeePercent: cfg.withdrawal?.feePercent || 5,
     minWithdrawal: cfg.withdrawal?.minCoins || 0,
     usagePrices:{
-      message: cfg.messages?.pricePerLetter || 1,
+      message: cfg.messages?.pricePerLetter || 0,
       voice: cfg.calls?.voicePerSecond || 2,
       video: cfg.calls?.videoPerSecond || 3,
       picturePost: cfg.usage?.picturePost || 0,
