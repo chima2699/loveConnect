@@ -836,7 +836,7 @@ app.get("/api/config/public", async (req,res)=>{
     withdrawalFeePercent: cfg.withdrawal?.feePercent || 5,
     minWithdrawal: cfg.withdrawal?.minCoins || 0,
     usagePrices:{
-      message: cfg.messages?.pricePerLetter || 0,
+      message: cfg.messages?.pricePerLetter || 1,
       voice: cfg.calls?.voicePerSecond || 2,
       video: cfg.calls?.videoPerSecond || 3,
       picturePost: cfg.usage?.picturePost || 0,
