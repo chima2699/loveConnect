@@ -174,7 +174,7 @@ UserSchema.virtual("totalCoins").get(function () {
 
 /* ================= NORMALIZATION ================= */
 
-UserSchema.pre("save", function (next) {
+UserSchema.pre("save", function () {
   if (this.gender) {
     this.gender = this.gender.toLowerCase();
   }
@@ -183,7 +183,6 @@ UserSchema.pre("save", function (next) {
     this.interestedIn = this.interestedIn.toLowerCase();
   }
 
-  next();
 });
 
 module.exports = mongoose.model("User", UserSchema);
