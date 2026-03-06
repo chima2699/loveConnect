@@ -327,30 +327,27 @@ const uploadDirPosts = path.join(__dirname, 'public/uploads/posts');
 if (!fs.existsSync(uploadDirProfile)) fs.mkdirSync(uploadDirProfile, { recursive: true });
 if (!fs.existsSync(uploadDirPosts)) fs.mkdirSync(uploadDirPosts, { recursive: true });
 
-const storageProfile = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, uploadDirProfile),
- filename: (req, file, cb) => {
-  const ext = path.extname(file.originalname || '');
-  const uname = req.user?.username || 'user';
-  cb(null, `${uname}_profile_${Date.now()}${ext}`);
-}
-
+const storageProfile = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: "loveconnect_profiles",
+    allowed_formats: ["jpg", "png", "jpeg"],
+  },
 });
 
-const storagePosts = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, uploadDirPosts),
-  filename: (req, file, cb) => {
-    const ext = path.extname(file.originalname || "");
-    const name = Date.now() + "_" + Math.random().toString(36).slice(2);
-    cb(null, name + ext);
-  }
+const storagePosts = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: "loveconnect_posts",
+    allowed_formats: ["jpg", "png", "jpeg","mp3", "mp4", "txt"],
+  },
 });
-const storageGallery = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, uploadDirProfile),
-  filename: (req, file, cb) => {
-    const ext = path.extname(file.originalname || '');
-    cb(null, `${Date.now()}_${Math.random().toString(36).slice(2)}${ext}`);
-  }
+const storageGallery = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: "loveconnect_gallery",
+    allowed_formats: ["jpg", "png", "jpeg", "mp3", "mp4", "txt" ],
+  },
 });
 
 const uploadProfile = multer({
