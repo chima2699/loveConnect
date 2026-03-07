@@ -54,6 +54,7 @@ const requireVerifiedPhone = require("./middlewares/requireVerifiedPhone");
 const requireWalletAccess = require("./middlewares/requireWalletAccess");
 const adminRoutes = require("./routes/admin");
 const walletRoutes = require("./routes/wallet");
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
 app.use("/api/wallet", (req, res, next) => {
   req.io = io;
   next();
