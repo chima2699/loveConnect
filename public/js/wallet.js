@@ -49,7 +49,7 @@
   ===================================================== */
   async function loadPricing() {
     try {
-      const res = await fetch("/api/wallet/config/public");
+      const res = await fetch("/api/config/public");
       if (!res.ok) return;
 
       const data = await res.json();
