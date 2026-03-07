@@ -1,7 +1,13 @@
 // server.js — MongoDB + JWT upgraded version
 // Full-featured, secure, drop-in replacement for your previous server.js
 // NOTE: create a .env file (see instructions) before running
+process.on("uncaughtException", (err) => {
+  console.error("UNCAUGHT EXCEPTION:", err);
+});
 
+process.on("unhandledRejection", (err) => {
+  console.error("UNHANDLED PROMISE REJECTION:", err);
+});
 require('dotenv').config();
 // Config / env
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/loveapp';
@@ -54,7 +60,6 @@ const requireVerifiedPhone = require("./middlewares/requireVerifiedPhone");
 const requireWalletAccess = require("./middlewares/requireWalletAccess");
 const adminRoutes = require("./routes/admin");
 const walletRoutes = require("./routes/wallet");
-const { CloudinaryStorage } = require("multer-storage-cloudinary");
 app.use("/api/wallet", (req, res, next) => {
   req.io = io;
   next();
@@ -328,31 +333,50 @@ const uploadDirPosts = path.join(__dirname, 'public/uploads/posts');
 if (!fs.existsSync(uploadDirProfile)) fs.mkdirSync(uploadDirProfile, { recursive: true });
 if (!fs.existsSync(uploadDirPosts)) fs.mkdirSync(uploadDirPosts, { recursive: true });
 
-const storageProfile = new CloudinaryStorage({
-  cloudinary: cloudinary,
-  params: {
-    folder: "loveconnect_profiles",
-    allowed_formats: ["jpg", "png", "jpeg"],
-  },
-});
+let storageProfile;
+let storagePosts;
+let storageGallery;
 
-const storagePosts = new CloudinaryStorage({
-  cloudinary: cloudinary,
-  params: {
-    folder: "loveconnect_posts",
-    allowed_formats: ["jpg", "png", "jpeg","mp3", "mp4", "txt"],
-  },
-});
-const storageGallery = new CloudinaryStorage({
-  cloudinary: cloudinary,
-  params: {
-    folder: "loveconnect_gallery",
-    allowed_formats: ["jpg", "png", "jpeg", "mp3", "mp4", "txt" ],
-  },
-});
+try {
+  const { CloudinaryStorage } = require("multer-storage-cloudinary");
+
+  storageProfile = new CloudinaryStorage({
+    cloudinary,
+    params: {
+      folder: "loveconnect_profiles",
+      allowed_formats: ["jpg", "jpeg", "png", "webp"]
+    }
+  });
+
+  storagePosts = new CloudinaryStorage({
+    cloudinary,
+    params: {
+      folder: "loveconnect_posts",
+      allowed_formats: ["jpg", "jpeg", "png", "mp4", "mp3", "webp"]
+    }
+  });
+
+  storageGallery = new CloudinaryStorage({
+    cloudinary,
+    params: {
+      folder: "loveconnect_gallery",
+      allowed_formats: ["jpg", "jpeg", "png", "mp4", "mp3", "webp"]
+    }
+  });
+
+  console.log("✅ Cloudinary storage initialized");
+
+} catch (err) {
+  console.error("❌ Cloudinary storage failed to load:", err);
+
+  storageProfile = null;
+  storagePosts = null;
+  storageGallery = null;
+}
 
 const uploadProfile = multer({
-  storage: storageProfile,
+  storage: storageProfile || undefined,
+  dest: storageProfile ? undefined : "uploads/",
   limits: { fileSize: 5 * 1024 * 1024 },
   fileFilter: (req, file, cb) => {
     if (!file.mimetype.startsWith("image/")) {
@@ -361,6 +385,19 @@ const uploadProfile = multer({
     cb(null, true);
   }
 });
+
+const uploadGallery = multer({
+  storage: storageGallery || undefined,
+  dest: storageGallery ? undefined : "uploads/",
+  limits: { fileSize: 6 * 1024 * 1024 },
+  fileFilter: (req, file, cb) => {
+    if (!file.mimetype.startsWith("image/")) {
+      return cb(new Error("Only images allowed"), false);
+    }
+    cb(null, true);
+  }
+});
+
 // ====== Utility helpers ======
 function sanitizeText(s, maxLen = 1000) {
   if (!s) return '';
@@ -609,7 +646,8 @@ app.get("/api/profile", requireAuth, async (req, res) => {
 });
 
 const uploadPost = multer({
-  storage: storagePosts,
+  storage: storagePosts || undefined,
+  dest: storagePosts ? undefined : "uploads/",
   limits: {
     fileSize: 30 * 1024 * 1024 // 30MB max
   },
@@ -883,21 +921,6 @@ app.post('/api/profile/photo',
     }
   }
 );
-
-
-
-
-
-const uploadGallery = multer({
-  storage: storageGallery,
-  limits: { fileSize: 6 * 1024 * 1024 },
-  fileFilter: (req, file, cb) => {
-    if (!file.mimetype.startsWith("image/")) {
-      return cb(new Error("Only images allowed"), false);
-    }
-    cb(null, true);
-  }
-});
 
 
 
