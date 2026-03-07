@@ -75,7 +75,9 @@ router.post("/buy-coins", requireAuth, async (req, res) => {
 
     const coinPrice = config.coinPrice || 1;
 const expectedAmount = coins * coinPrice;
-
+if (!expectedAmount || expectedAmount <= 0) {
+  return res.status(400).json({ error: "Invalid payment amount" });
+}
     // ==============================
     // ADD COINS TO USER
     // ==============================
