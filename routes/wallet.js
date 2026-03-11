@@ -45,25 +45,14 @@ router.post("/buy-coins", requireAuth, async (req, res) => {
     const username = req.user.username;
 
     if (!coins || coins <= 0) {
-      return res.status(400).js
-      on({ error: "Invalid coin amount" });
+      return res.status(400).json({ error: "Invalid coin amount" });
     }
 
-    if (!amount || amount <= 0) {
-      return res.status(400).json({ error: "Invalid payment amount" });
-    }
-
-    
-
-    // ==============================
-    // GET USER
-    // ==============================
     const user = await User.findOne({ username });
-    if (!user) return res.status(404).json({ error: "User not found" });
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
 
-    // ==============================
-    // GET ACTIVE CONFIG
-    // ==============================
     const config = await Config.findOne({ isActive: true });
     if (!config) {
       return res.status(500).json({ error: "Config not found" });
@@ -74,48 +63,42 @@ router.post("/buy-coins", requireAuth, async (req, res) => {
     }
 
     const coinPrice = config.coinPrice || 1;
-const expectedAmount = coins * coinPrice;
-if (!expectedAmount || expectedAmount <= 0) {
-  return res.status(400).json({ error: "Invalid payment amount" });
-}
-    // ==============================
-    // ADD COINS TO USER
-    // ==============================
+    const amount = Number(coins) * coinPrice;
+
+    if (!amount || amount <= 0) {
+      return res.status(400).json({ error: "Invalid payment amount" });
+    }
+
+    // ADD COINS
     user.purchasedCoins = (user.purchasedCoins || 0) + Number(coins);
     await user.save();
 
-    // ==============================
-    // CREATE TRANSACTION RECORD
-    // ==============================
+    // TRANSACTION
     await Transaction.create({
       username,
-      type: "purchase",
+      type: "PURCHASE",
       coins: Number(coins),
-      amount: Number(amount),
+      amount,
       status: "completed",
       reference: "coin_purchase",
       meta: {
-        method: "manual", // change to paystack if needed
-        adminRevenue: Number(amount)
+        method: "manual",
+        adminRevenue: amount
       },
       createdAt: new Date()
     });
 
-    // ==============================
-    // SOCKET LIVE UPDATE
-    // ==============================
+    // AUDIT LOG
+    await AuditLog.create({
+      admin: "system",
+      action: "USER_PURCHASE",
+      details: { username, coins, amount },
+      time: new Date()
+    });
+
+    // SOCKET UPDATE
     req.io?.emit("wallet_update", { username });
     req.io?.emit("admin:dashboard_update");
-
-    // ==============================
-    // AUDIT LOG
-    // ==============================
-    await AuditLog.create({
-  admin: "system",
-  action: "USER_PURCHASE",
-  details: { username, coins, amount: expectedAmount },
-  time: new Date()
-});
 
     res.json({
       success: true,
@@ -128,7 +111,6 @@ if (!expectedAmount || expectedAmount <= 0) {
     res.status(500).json({ error: "Failed to buy coins" });
   }
 });
-
 
 /* =====================================================
    GET USER TRANSACTIONS
