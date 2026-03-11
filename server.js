@@ -24,6 +24,7 @@ const { Server } = require("socket.io");
 const socketIo = require('socket.io');
 const crypto = require("crypto");
 const app = express();
+app.disable("x-powered-by");
 app.set('trust proxy', 1);
 let currentPricing = null;
 const path = require('path');
@@ -60,10 +61,8 @@ const requireVerifiedPhone = require("./middlewares/requireVerifiedPhone");
 const requireWalletAccess = require("./middlewares/requireWalletAccess");
 const adminRoutes = require("./routes/admin");
 const walletRoutes = require("./routes/wallet");
-app.use("/api/wallet", (req, res, next) => {
-  req.io = io;
-  next();
-}, walletRoutes);
+
+const cloudinary = require("./config/cloudinary");
 
 const server = http.createServer(app);
 const io = new Server(server, {
@@ -76,95 +75,12 @@ const io = new Server(server, {
 app.set("io", io);
 
 const { generateOTP, hashOTP } = require("./utils/otp");
+
+
 // ================== 2. APP FIRST ==================
 // Attach io to ALL /api routes
 
-app.use(express.json());
-
-app.use("/api/admin", (req,res,next)=>{
-  req.io = io;
-  next();
-}, adminRoutes);
-
-
-app.disable("x-powered-by");
-
-
-
-
-
-// Connect to MongoDB
-mongoose.connect(MONGO_URI)
-.then(async () => {
-    console.log("✅ MongoDB connected");
-
-    // ✅ ENSURE ONE ACTIVE CONFIG EXISTS (SAFE ON EVERY START)
-    let existing = await Config.findOne({ isActive: true });
-
-    console.log("📦 Active pricing config:", existing);
-
-    if (!existing) {
-      console.log("⚠️ No active config found, creating default...");
-
-      // 🔴 Deactivate any old configs (safety)
-      // 1️⃣ Activate this config FIRST
-
-
-// 2️⃣ Deactivate every other config
-let cfg = await Config.findOne({ isActive: true });
-
-if (!cfg) {
-  cfg = await Config.create({
-    isActive: true,
-    coinPrice: 1,
-    calls: { voicePerSecond: 2, videoPerSecond: 5 },
-    messages: { pricePerLetter: 1 },
-    usage: { picturePost: 0, videoPost: 0 },
-    withdrawal: { feePercent: 5, minCoins: 0, maxCoins: 100000 },
-    bonus: { newUser: 0, dailyLogin: 0 }
-  });
-}
-
-      // 🟢 Create fresh active config
-      await new Config({
-        isActive: true,
-
-        // 💰 Wallet / Coins
-        bonusCoins: 100,
-        coinPrice: 1,
-
-        // 📞 Call pricing (USED BY SOCKET + /api/spend/call)
-        calls: {
-          voicePerSecond: 2,
-          videoPerSecond: 5
-        },
-
-        // 💬 Message pricing (USED BY SOCKET)
-        messages: {
-          pricePerLetter: 1
-        },
-
-        // 📦 Usage pricing (posts, etc.)
-        usage: {
-          picturePost: 0,
-          videoPost: 0
-        }
-      }).save();
-
-      console.log("✅ Default active config created");
-    } else {
-      console.log("✅ Active config already exists");
-    }
-  })
-  .catch(err => {
-    console.error("❌ MongoDB connection error:", err);
-  });
-
-
-// ====== Schemas ======
-
-
-// ====== Models ======
+//=== Models ======
 
 
 // ================== 3. PAYSTACK WEBHOOK (RAW BODY ONLY) ==================
@@ -180,7 +96,7 @@ app.post(
 
       const hash = crypto
         .createHmac("sha512", process.env.PAYSTACK_SECRET_KEY)
-        .update(req.body)
+        .update(req.body.toString())
         .digest("hex");
 
       // ❌ Invalid signature → ignore silently
@@ -208,7 +124,7 @@ app.post(
         if (!user) return res.sendStatus(200);
 
         // ➕ Credit purchased coins
-        user.purchasedCoins += Number(coins);
+        user.purchasedCoins = (user.purchasedCoins || 0) + Number(coins);
         await user.save();
 
         // 🧾 Payment record
@@ -239,11 +155,11 @@ app.post(
         });
 
         // 🔔 Realtime wallet update
-        io.to(username).emit("wallet_update", {
-          username,
-          purchasedCoins: user.purchasedCoins,
-          bonusCoins: user.bonusCoins
-        });
+        io.emit("wallet_update", {
+  username,
+  purchasedCoins: user.purchasedCoins,
+  bonusCoins: user.bonusCoins
+});
       }
 
       /* ===========================
@@ -280,11 +196,6 @@ app.post(
     }
   }
 );
-
-
-// ====== App & Socket Setup =====
-
-
 app.use(
   helmet({
     contentSecurityPolicy: {
@@ -303,9 +214,15 @@ app.use(cors({
   origin: true,
   credentials: true
 }));
-app.use(express.json({ limit: '1mb' }));
-app.use(express.urlencoded({ extended: true }));
+app.use((req, res, next) => {
+  if (req.originalUrl === "/api/paystack/webhook") {
+    next();
+  } else {
+    express.json({ limit: "1mb" })(req, res, next);
+  }
+});
 
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 
@@ -324,6 +241,62 @@ app.use("/api/posts", require("./routes/posts"));
 
 
 
+app.use("/api/wallet", (req, res, next) => {
+  req.io = io;
+  next();
+}, walletRoutes);
+
+app.use("/api/admin", (req,res,next)=>{
+  req.io = io;
+  next();
+}, adminRoutes);
+
+// Connect to MongoDB
+mongoose.connect(MONGO_URI)
+.then(async () => {
+    console.log("✅ MongoDB connected");
+
+    // ✅ ENSURE ONE ACTIVE CONFIG EXISTS (SAFE ON EVERY START)
+    
+
+   let existing = await Config.findOne({ isActive: true });
+  console.log("📦 Active pricing config:", existing);
+
+if (!existing) {
+  await Config.create({
+    isActive: true,
+    coinPrice: 1,
+    bonusCoins: 100,
+    calls: {
+      voicePerSecond: 2,
+      videoPerSecond: 5
+    },
+    messages: {
+      pricePerLetter: 1
+    },
+    usage: {
+      picturePost: 0,
+      videoPost: 0
+    },
+    withdrawal: {
+      feePercent: 5,
+      minCoins: 0,
+      maxCoins: 100000
+    },
+    bonus: {
+      newUser: 0,
+      dailyLogin: 0
+    }
+  });
+
+  console.log("✅ Default active config created");
+ 
+}
+  })
+.catch(err => {
+  console.error("❌ MongoDB connection error:", err);
+});
+// ====== App & Socket Setup =====
 
 // Serve static files (frontend)
 
@@ -340,30 +313,32 @@ let storageGallery;
 try {
   const { CloudinaryStorage } = require("multer-storage-cloudinary");
 
-  storageProfile = new CloudinaryStorage({
-    cloudinary,
-    params: {
-      folder: "loveconnect_profiles",
-      allowed_formats: ["jpg", "jpeg", "png", "webp"]
-    }
-  });
+storageProfile = new CloudinaryStorage({
+  cloudinary,
+  params: async (req, file) => ({
+    folder: "loveconnect_profiles",
+    resource_type: "auto",
+    allowed_formats: ["jpg", "jpeg", "png", "webp", "gif"]
+  })
+});
 
   storagePosts = new CloudinaryStorage({
-    cloudinary,
-    params: {
-      folder: "loveconnect_posts",
-      allowed_formats: ["jpg", "jpeg", "png", "mp4", "mp3", "webp"]
-    }
-  });
+  cloudinary,
+  params: async (req, file) => ({
+    folder: "loveconnect_posts",
+    resource_type: "auto",
+    allowed_formats: ["jpg", "jpeg", "png", "mp4", "mp3", "webp", "mov", "webm"]
+  })
+});
 
-  storageGallery = new CloudinaryStorage({
-    cloudinary,
-    params: {
-      folder: "loveconnect_gallery",
-      allowed_formats: ["jpg", "jpeg", "png", "mp4", "mp3", "webp"]
-    }
-  });
-
+ storageGallery = new CloudinaryStorage({
+  cloudinary,
+  params: async (req, file) => ({
+    folder: "loveconnect_gallery",
+    resource_type: "auto",
+    allowed_formats: ["jpg", "jpeg", "png", "mp4", "mp3", "webp", "mov", "webm"]
+  })
+});
   console.log("✅ Cloudinary storage initialized");
 
 } catch (err) {
@@ -391,9 +366,21 @@ const uploadGallery = multer({
   dest: storageGallery ? undefined : "uploads/",
   limits: { fileSize: 6 * 1024 * 1024 },
   fileFilter: (req, file, cb) => {
-    if (!file.mimetype.startsWith("image/")) {
-      return cb(new Error("Only images allowed"), false);
+    const allowed = [
+      "image/jpeg",
+      "image/png",
+      "image/webp",
+      "image/gif",
+      "video/mp4",
+      "video/webm",
+      "video/quicktime",
+      "audio/mpeg"
+    ];
+
+    if (!allowed.includes(file.mimetype)) {
+      return cb(new Error("Invalid file type"), false);
     }
+
     cb(null, true);
   }
 });
@@ -971,38 +958,53 @@ app.get("/api/posts", async (req, res) => {
 
 
 app.post("/api/buy-coins", requireAuth, async (req, res) => {
-  const { coins } = req.body;
-  const username = req.user.username;
+  try {
+    const { coins } = req.body;
+    const username = req.user.username;
 
-  const amountCoins = Number(coins);
-  if (!amountCoins || amountCoins <= 0)
-    return res.status(400).json({ error: "Invalid coin amount" });
+    const amountCoins = Number(coins);
 
- const config = await Config.findOne({ isActive: true });
-
-  const amountToPay = amountCoins * (config?.coinPrice || 1) * 100; // kobo
-
-  const response = await axios.post(
-    "https://api.paystack.co/transaction/initialize",
-    {
-      email: `${username}@loveconnect.app`,
-      amount: amountToPay,
-      metadata: {
-        username,
-        coins: amountCoins
-      }
-    },
-    {
-      headers: {
-        Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}`,
-        "Content-Type": "application/json"
-      }
+    if (!amountCoins || amountCoins <= 0) {
+      return res.status(400).json({ error: "Invalid coin amount" });
     }
-  );
 
-  res.json({
-    authorization_url: response.data.data.authorization_url
-  });
+    const config = await Config.findOne({ isActive: true });
+
+    if (!config) {
+      return res.status(500).json({ error: "Pricing config missing" });
+    }
+
+    const amountToPay = amountCoins * (config.coinPrice || 1) * 100;
+
+    const response = await axios.post(
+      "https://api.paystack.co/transaction/initialize",
+      {
+        email: `${username}@loveconnect.app`,
+        amount: amountToPay,
+        metadata: {
+          username,
+          coins: amountCoins
+        }
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}`,
+          "Content-Type": "application/json"
+        }
+      }
+    );
+
+    res.json({
+      authorization_url: response.data.data.authorization_url
+    });
+
+  } catch (err) {
+    console.error("Paystack init error:", err.response?.data || err.message);
+
+    res.status(500).json({
+      error: "Payment initialization failed"
+    });
+  }
 });
 
 
