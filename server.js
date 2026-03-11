@@ -606,49 +606,61 @@ app.get('/api/users/all', async (req, res) => {
 });
 
 app.get("/api/profile", requireAuth, async (req, res) => {
-  const { username } = req.query;
-  const me = req.user.username;
+  try {
+    const { username } = req.query;
+    const me = req.user.username;
 
-  const user = await User.findOne({ username });
-  if (!user) {
-    return res.status(404).json({ error: "User not found" });
+    if (!username) {
+      return res.status(400).json({ error: "Username required" });
+    }
+
+    const user = await User.findOne({ username }).lean();
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const meUser = await User.findOne({ username: me }).lean();
+
+    const isFollowing = meUser?.following?.includes(username) || false;
+
+    res.json({
+      username: user.username,
+      age: user.age,
+      gender: user.gender,
+      interestedIn: user.interestedIn,
+      location: user.location,
+      interests: user.interests,
+      goal: user.goal,
+      bio: user.bio,
+      profilePhoto: user.profilePhoto,
+      photos: user.photos || [],
+      followers: user.followers?.length || 0,
+      following: user.following?.length || 0,
+      isFollowing
+    });
+
+  } catch (err) {
+    console.error("Profile load error:", err);
+    res.status(500).json({ error: "Failed to load profile" });
   }
-
-  const meUser = await User.findOne({ username: me });
-
-  const isFollowing = meUser?.following?.includes(username) || false;
-
-  res.json({
-    username: user.username,
-    age: user.age,
-    gender: user.gender,
-    interestedIn: user.interestedIn,
-    location: user.location,
-    interests: user.interests,
-    goal: user.goal,
-    bio: user.bio,
-    profilePhoto: user.profilePhoto,
-    photos: user.photos || [],
-    followers: user.followers?.length || 0,
-    following: user.following?.length || 0,
-    isFollowing // ✅ THIS FIXES THE BUTTON STATE
-  });
 });
 
 const uploadPost = multer({
   storage: storagePosts || undefined,
   dest: storagePosts ? undefined : "uploads/",
   limits: {
-    fileSize: 30 * 1024 * 1024 // 30MB max
+    fileSize: 30 * 1024 * 1024
   },
   fileFilter: (req, file, cb) => {
     const allowed = [
       "image/jpeg",
       "image/png",
       "image/webp",
+      "image/gif",
       "video/mp4",
       "video/webm",
-      "video/quicktime"
+      "video/quicktime",
+      "audio/mpeg"
     ];
 
     if (!allowed.includes(file.mimetype)) {
