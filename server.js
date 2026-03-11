@@ -235,7 +235,10 @@ const limiter = rateLimit({
 });
 app.use(limiter);
 
-app.use("/api/posts", require("./routes/posts"));
+app.use("/api/posts", (req, res, next) => {
+  req.io = io;
+  next();
+}, require("./routes/posts"));
 
 
 
