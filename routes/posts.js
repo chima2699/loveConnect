@@ -52,7 +52,7 @@ const upload = multer({
 /* ======================================================
    🔥 LOAD POSTS (LOCKED + UNLOCKED)  ✅ FIX
 ====================================================== */
-router.get("/api/posts", async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const posts = await Post.find({})
       .sort({ createdAt: -1 })
