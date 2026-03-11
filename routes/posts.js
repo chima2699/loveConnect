@@ -14,16 +14,41 @@ const { spendCoinsMongo, creditCoinsMongo } = require("../utils/spendCoins");
 /* ======================================================
    MULTER (IMAGE + VIDEO)
 ====================================================== */
-const storage = multer.diskStorage({
-  destination: path.join(__dirname, "..","public", "uploads", "posts"),
-  filename: (req, file, cb) => {
-    const ext = path.extname(file.originalname || "");
-    cb(null, Date.now() + "-" + Math.random().toString(36).slice(2) + ext);
-  }
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
+const cloudinary = require("../config/cloudinary");
+
+const storage = new CloudinaryStorage({
+  cloudinary,
+  params: async (req, file) => ({
+    folder: "loveconnect_posts",
+    resource_type: "auto",
+    allowed_formats: ["jpg", "jpeg", "png", "webp", "mp4", "mov", "webm", "mp3"]
+  })
 });
 
-const upload = multer({ storage });
+const upload = multer({
+  storage,
+  limits: {
+    fileSize: 30 * 1024 * 1024
+  },
+  fileFilter: (req, file, cb) => {
+    const allowed = [
+      "image/jpeg",
+      "image/png",
+      "image/webp",
+      "video/mp4",
+      "video/webm",
+      "video/quicktime",
+      "audio/mpeg"
+    ];
 
+    if (!allowed.includes(file.mimetype)) {
+      return cb(new Error("Invalid file type"), false);
+    }
+
+    cb(null, true);
+  }
+});
 /* ======================================================
    🔥 LOAD POSTS (LOCKED + UNLOCKED)  ✅ FIX
 ====================================================== */
@@ -76,7 +101,7 @@ router.post( "/create", requireAuth, upload.single("media"),
       if (req.file) {
         const isVideo = req.file.mimetype.startsWith("video/");
         mediaType = isVideo ? "video" : "photo";
-        mediaUrl = `/uploads/posts/${req.file.filename}`;
+        mediaUrl = req.file.path;
       }
 
       const config = await Config.findOne({ isActive: true });
