@@ -10,7 +10,7 @@
     "bcryptjs": "^2.4.3",
     "body-parser": "^2.2.1",
     "cors": "^2.8.5",
-    "cloudinary": "^2.5.1",
+    "cloudinary": "^1.41.3",
 "multer-storage-cloudinary": "^4.0.0",
     "cropperjs": "^2.1.0",
     "dotenv": "^17.2.3",
