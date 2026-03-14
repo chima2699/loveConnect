@@ -902,8 +902,15 @@ app.post('/api/profile/photo',
       if (!user) {
         return res.status(404).json({ error: 'User not found' });
       }
+      console.log("Uploaded file:", req.file);
+      const uploadedUrl = req.file.path || req.file.secure_url || req.file.filename;
 
-      user.profilePhoto = req.file.path;
+if (!uploadedUrl) {
+  return res.status(500).json({ error: 'Cloudinary URL missing' });
+}
+
+
+      user.profilePhoto = uploadedUrl;
 
       if (!Array.isArray(user.photos)) user.photos = [];
       if (!user.photos.includes(user.profilePhoto)) {
