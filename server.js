@@ -903,7 +903,7 @@ app.post('/api/profile/photo',
         return res.status(404).json({ error: 'User not found' });
       }
 
-      user.profilePhoto = '/uploads/profile/' + req.file.filename;
+      user.profilePhoto = req.file.path;
 
       if (!Array.isArray(user.photos)) user.photos = [];
       if (!user.photos.includes(user.profilePhoto)) {
@@ -933,7 +933,7 @@ app.post('/api/profile/gallery', requireAuth, uploadGallery.array('gallery', 6),
   if (!user) return res.status(404).json({ error: 'User not found' });
 
   if (!Array.isArray(user.photos)) user.photos = [];
-  req.files.forEach(f => user.photos.push('/uploads/profile/' + f.filename));
+  req.files.forEach(f => user.photos.push(f.path));
   await user.save();
   res.json({ message: 'Gallery uploaded', photos: user.photos });
 });
