@@ -44,7 +44,7 @@ router.post('/register', uploadProfile.single('photo'), async (req, res) => {
     username,
     email,
     password: hash,
-    profilePhoto: req.file ? '/uploads/profile/' + req.file.filename : null,
+    profilePhoto: req.file ? '/uploads/profile/' + req.file.path : null,
     age: null,
     gender: '',
     interestedIn: 'any',
