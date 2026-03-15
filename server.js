@@ -353,8 +353,7 @@ storageProfile = new CloudinaryStorage({
 }
 
 const uploadProfile = multer({
-  storage: storageProfile || undefined,
-  dest: storageProfile ? undefined : "uploads/",
+  storage: storageProfile,
   limits: { fileSize: 5 * 1024 * 1024 },
   fileFilter: (req, file, cb) => {
     if (!file.mimetype.startsWith("image/")) {
@@ -365,8 +364,7 @@ const uploadProfile = multer({
 });
 
 const uploadGallery = multer({
-  storage: storageGallery || undefined,
-  dest: storageGallery ? undefined : "uploads/",
+  storage: storageGallery,
   limits: { fileSize: 6 * 1024 * 1024 },
   fileFilter: (req, file, cb) => {
     const allowed = [
@@ -646,8 +644,7 @@ app.get("/api/profile", requireAuth, async (req, res) => {
 });
 
 const uploadPost = multer({
-  storage: storagePosts || undefined,
-  dest: storagePosts ? undefined : "uploads/",
+  storage: storagePosts,
   limits: {
     fileSize: 30 * 1024 * 1024
   },
@@ -897,6 +894,7 @@ app.post('/api/profile/photo',
       if (!req.file) {
         return res.status(400).json({ error: 'No file uploaded' });
       }
+      console.log("Uploaded file object:", req.file);
 
       const user = await User.findOne({ username: req.user.username });
       if (!user) {
