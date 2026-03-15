@@ -45,7 +45,10 @@ if (followBtn) {
 
       const mainPhoto = $("mainPhoto");
       if (mainPhoto) {
-        mainPhoto.src = p.profilePhoto || "/default.png";
+        mainPhoto.src =
+  p.profilePhoto && p.profilePhoto.startsWith("http")
+    ? p.profilePhoto
+    : "/default.png";
       }
 
       const basicInfo = $("basicInfo");
@@ -69,7 +72,7 @@ if (followBtn) {
         gallery.innerHTML = "";
         (p.photos || []).forEach(src => {
           const img = document.createElement("img");
-          img.src = src;
+          img.src = src && src.startsWith("http") ? src : "/default.png";
           gallery.appendChild(img);
         });
       }
